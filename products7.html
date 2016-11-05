@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="html, javascript" />
+    <meta name="description" content="Test Web app" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="Content/Styles/site.css" />
+    
+    <style>
+            #addNewProductForm{
+                display:none;
+            }
+
+            #editProductForm{
+                display:none;
+            }
+
+    </style>
+    
+    <script src="App/app.js"></script>
+    <script src="App/productApp.js"></script>
+    <script src="App/jquery-3.1.1.min.js"></script>
+    <script>
+		
+		
+      
+
+		
+        //Creating Table
+
+       
+        var productToEdit = -1;
+                              
+        function getProducts() {
+            var prodObj = new productApp.ProductRepository();
+            var data = prodObj.data;
+            var table = "<table border='1'><tr><th>Id</th><th>Name</th><th>Price</th><th>Action</th></tr>";
+            data.forEach(function (entry) {
+                var tr = "<tr><td>" + entry.Id + "</td><td>" + entry.Name + "</td><td>" + entry.Price + "</td><td><a href='javascript:void(0)' onclick='showUpdateProductForm("+entry.id+");'>Edit</a> | <a href='javascript:void(0)' onclick='viewProduct("+entry.id+");'>View</a> | <a href='javascript:void(0)' onclick='deleteProduct("+entry.id+")'>Delete</a></td></tr>";
+
+                table += tr;
+            });
+
+            table += "</table>";
+            document.getElementById("grid").innerHTML = table;
+
+        }
+        
+
+        
+        this.viewProduct = function (entry) {
+            var productInfo = "Name: " + data[entry].name + " Price: " + data[entry].price;
+            document.getElementById("grid").innerHTML = productInfo;
+
+            alert(viewing);
+
+        }
+
+        this.showUpdateProductForm = function (entry) {
+            productToEdit = entry;        //makes global variable equal to parameter for updateProduct function to know which to edit.
+            alert(entry);
+            document.getElementById("editProductForm").style.display = "block";
+        }
+
+
+        this.updateProduct = function () {
+            var id = productToEdit;
+            document.getElementById("editProductForm").style.display = "none";
+
+            var id = document.getElementById("updateID").value;
+            var name = document.getElementById("updateName").value;
+            var price = document.getElementById("updatePrice").value;
+
+            data.splice()
+
+
+            getProducts;
+        }
+
+
+
+
+        function showAddNewForm(entry) {
+            document.getElementById("addNewProductForm").style.display = "block";
+        }
+
+        this.addNewProduct = function () {
+          
+            document.getElementById("addNewProductForm").style.display = "none";
+
+            var id = document.getElementById("newID").value;
+            var name = document.getElementById("newName").value;
+            var price = document.getElementById("newPrice").value;
+
+
+            data.push({ Id: id, Name: name, Price: price });
+
+            getProducts();
+        }
+
+
+
+        this.deleteProduct = function (entry) {
+            var id = entry.value;
+            alert(id);
+            self.data.splice(entry - 1, 1);
+            getProduct();
+        }
+		
+      
+
+        this.getProductById = function () {
+            var search = document.getElementById("userInput").value;
+            var position = data.indexOf(search);
+            document.getElementById("content").innerHTML = position;
+        }
+		
+  
+       
+        
+    </script>
+
+  
+</head>
+<body>
+    <div id="container">
+        <section id="pageHeader">
+            <div id="pageLogo">
+
+            </div>
+            <div id="header">
+                <header>
+                    <h1>UI Developer Tutorial</h1>
+                </header>
+            </div>
+            <nav id="topMenu">
+                <ul>
+                    <li>
+                        <a href="Index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="Login.html">Login</a>
+                    </li>
+                    <li>
+                        <a href="Register.html">Register</a>
+                    </li>
+                    <li>
+                        <a href="About.html">About Us</a>
+                    </li>
+                    <li>
+                        <a href="Contact.html">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+        <section id="sidebar">
+            <div id="sideHeader">
+                <span>Quick Links</span>
+            </div>
+            <nav id="sideMenu">
+                <ul>
+                    <li>
+                        <a href="HtmlNotes.html">HTML</a>
+                    </li>
+                    <li>
+                        <a href="HtmlNotes.html">JavaScript</a>
+                    </li>
+                    <li>
+                        <a href="HtmlNotes.html">CSS</a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+        <section id="maincontent">
+            <section id="contentHeader">
+                <header></header>
+            </section>
+            <section id="timerSection">
+                <div id="timer" style="float:right;background-color:gray;color:red;">
+                        <span id="spnTime"></span>
+                </div>
+            </section>
+            <section id="content">
+               <div id="grid" >
+
+               </div>
+                <div>
+                    <button type="button" onclick="getProducts()">Get Products</button>
+
+                </div>
+                 <div>
+                    <button type="button" onclick="showAddNewForm()">Add New Product</button>
+                </div>
+
+              
+                <!-- SEARCH FORM-->
+
+
+                <form id="form" onsubmit="return false;">
+                    <input type="text" id="userInput" />
+                    <input type="submit" onclick="getProductById()" />
+                </form>
+                 
+            </section>
+
+            <!-- ADD NEW PRODUCT FORM-->
+
+            <form name="addNewProductForm" id="addNewProductForm">
+                <fieldset>
+                    <legend> Add New Product</legend>
+                    <div>
+                        <label for="ID">ID:</label>
+                        <input type="text" id="newID" name="ID" autofocus title=
+                        "ID is missing"/>
+                    </div>
+                    <div>
+                        <label for="Name">Name:</label>
+                        <input type="text" id="newName" name="Name" autofocus title=
+                        "ID is missing"/>
+                    </div>
+                    <div>
+                        <label for="Price">Price:</label>
+                        <input type="text" id="newPrice" name="Price" autofocus title=
+                        "ID is missing"/>
+                    </div>
+                    <div>
+                        <input type="button" value="submit" onclick="addNewProduct()"/>
+                    </div>
+                </fieldset>
+            </form>
+
+            <!-- EDIT PRODUCT FORM-->
+
+            <form name="editProductForm" id="editProductForm">
+                <fieldset>
+                    <legend> Add New Product</legend>
+                    <div>
+                        <label for="ID">ID:</label>
+                        <input type="text" id="updateID" name="ID" autofocus title=
+                        "ID is missing"/>
+                    </div>
+                    <div>
+                        <label for="Name">Name:</label>
+                        <input type="text" id="updateName" name="Name" autofocus title=
+                        "ID is missing"/>
+                    </div>
+                    <div>
+                        <label for="Price">Price:</label>
+                        <input type="text" id="updatePrice" name="Price" autofocus title=
+                        "ID is missing"/>
+                    </div>
+                    <div>
+                        <input type="button" value="submit" onclick="updateProduct2()"/>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+        
+        
+
+        <section id="clear"></section>
+        <section id="pageFooter">
+            <footer>
+                <span>&copy;All Rights Reserved. <span id="spnDateTime"></span></span>
+            </footer>
+        </section>
+    </div>
+
+</body>
+</html>
